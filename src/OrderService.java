@@ -5,7 +5,7 @@ public class OrderService {
     private List<Order> orders;
     private List<Courier> couriers;
 
-    public List<Order> getOrder() { return orders; }
+    public List<Order> getOrders() { return orders; }
     public List<Courier> getCouriers() { return couriers; }
 
     public OrderService() {
@@ -29,7 +29,7 @@ public class OrderService {
         System.out.println(item.getProductName() + "добавлен в заказ");
     }
 
-    public void assignourierToOrder(Order order, Courier courier) {
+    public void assignCourierToOrder(Order order, Courier courier) {
         if (courier.isBisy()){
             System.out.println("Курьер" + courier.getName() +"занят");
             return;
@@ -39,19 +39,19 @@ public class OrderService {
         System.out.println("Курьер" + courier.getName() + "назначен на заказ");
     }
 
-    public void completeDelivery(Order order) {
-        if(order.getStatus().equals("Доставлен")) {
-            System.out.println("Заказ уже доставлен");
-        }
-        order.setStatus("Доставлен");
-        Courier courier  = order.getAssignedCourier();
-        if(courier != null){
-            courier.release();
-            System.out.println("Заказ доставлен курьером");
-        } else {
-            System.out.println("Заказ получен"); //pickup
-        }
-    }
+//    public void completeDelivery(Order order) {
+//        if(order.getStatus().equals("Доставлен")) {
+//            System.out.println("Заказ уже доставлен");
+//        }
+//        order.setStatus("Доставлен");
+//        Courier courier  = order.getAssignedCourier();
+//        if(courier != null){
+//            courier.release();
+//            System.out.println("Заказ доставлен курьером");
+//        } else {
+//            System.out.println("Заказ получен"); //pickup
+//        }
+//    }
 
     public void showAllOrders() {
         if (orders.isEmpty()){
