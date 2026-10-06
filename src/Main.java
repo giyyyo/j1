@@ -19,10 +19,10 @@ public class Main {
         while(isRunning){
             System.out.println("--- МЕНЮ ---");
             System.out.println("1. Создать новый заказ");
-            System.out.println("2. Добавить товар в заказ");
-            System.out.println("3. Назначить курьера на заказ");
-            System.out.println("4. Завершить доставку");
-            System.out.println("5. Показать все заказы");
+//            System.out.println("4. Добавить товар в заказ");
+            System.out.println("2. Назначить курьера на заказ");
+//            System.out.println("5. Завершить доставку");
+            System.out.println("3. Показать все заказы");
             System.out.println("0. Выход");
             System.out.print("Выберите действие: ");
 
@@ -84,8 +84,8 @@ public class Main {
 
         System.out.println("Выберите способ доставки:");
         System.out.println("1. Самовывоз (бесплатно");
-        System.out.println("2. Курьер (150 руб.");
-        System.out.println("3. Экспресс-доставка (300 руб.");
+        System.out.println("2. Курьер (150 руб.)");
+        System.out.println("3. Экспресс-доставка (300 руб.)");
         int deliveryChoice = Integer.parseInt(scanner.nextLine());
 
         DeliveryMethod deliveryMethod = null;
@@ -108,7 +108,7 @@ public class Main {
 
         boolean addingItems = true;
         while(addingItems){
-            System.out.println("Добавить товар в заказ (1 - да, 0 - нет, перейти к оформлению");
+            System.out.println("Добавить товар в заказ (1 - да, 0 - нет, перейти к оформлению)");
             int addChoice = Integer.parseInt(scanner.nextLine());
 
             if(addChoice == 1){
@@ -123,7 +123,7 @@ public class Main {
 
                 OrderItem item = new OrderItem(productName, quantity, price);
                 order.addItem(item);
-                System.out.println("Товар " + productName + "был добавлен.");
+                System.out.println("Товар " + productName + " был добавлен.");
             } else{
                 addingItems = false;
             }
@@ -148,7 +148,7 @@ public class Main {
 
         System.out.println("Выберите курьера: ");
         for (int i=0; i < couriers.size(); i++){
-            String status = couriers.get(i).isBisy()? "занят": "свободен";
+            String status = couriers.get(i).isBisy()? " занят": " свободен";
             System.out.println((i+1) + ". " + couriers.get(i).getName() + status);
         }
         int courierIndex = Integer.parseInt(scanner.nextLine())-1;
