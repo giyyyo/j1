@@ -17,6 +17,7 @@ public class Order {
 
     public String getStatus() { return status; }
     public Client getClient() { return client; }
+    public boolean isEmpty() {return items.isEmpty(); }
     public Courier getAssignedCourier() {return assignedCourier;}
 
     public void setStatus(String status) {this.status = status;}
@@ -36,7 +37,7 @@ public class Order {
             ItemsCost +=item.getTotalPrise();
         }
 
-        return ItemsCost+deliveryMethod.calculateCost();
+        return ItemsCost + deliveryMethod.calculateCost();
     }
 
     public String getOrderInfo() {

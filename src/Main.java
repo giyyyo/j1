@@ -24,16 +24,8 @@ public class Main {
             System.out.println("2. Назначить курьера на заказ");
             System.out.println("3. Показать все заказы");
             System.out.println("0. Выход");
-            System.out.print("Выберите действие: ");
 
-            String choiceStr = scanner.nextLine();
-            int choice = 0;
-            try{
-                choice = Integer.parseInt(choiceStr);
-            } catch (NumberFormatException e){
-                System.out.println("Пожалуйста, введите число!");
-                continue;
-            }
+            int choice = readInt(scanner,"Выберите действие: " );
 
             switch (choice){
                 case 1:
@@ -78,7 +70,7 @@ public class Main {
         System.out.println("1. Самовывоз (бесплатно");
         System.out.println("2. Курьер (150 руб.)");
         System.out.println("3. Экспресс-доставка (300 руб.)");
-        int deliveryChoice = Integer.parseInt(scanner.nextLine());
+        int deliveryChoice = readInt(scanner, "");
 
         DeliveryMethod deliveryMethod = null;
         switch(deliveryChoice) {
@@ -100,9 +92,12 @@ public class Main {
 
         boolean addingItems = true;
         while(addingItems){
-            System.out.println("Добавить товар в заказ (1 - да, 0 - нет, перейти к оформлению)");
-            int addChoice = Integer.parseInt(scanner.nextLine());
-
+            int addChoice = 1;
+            if (order.isEmpty() == true) {
+                System.out.println("Добавление товара в заказ.");
+            } else {
+                addChoice = readInt(scanner, "Добавить товар в заказ (1 - да, 0 - нет, перейти к оформлению)");
+            }
             if(addChoice == 1){
                 System.out.println("Введите название товара: ");
                 String productName = scanner.nextLine();
@@ -133,14 +128,14 @@ public class Main {
         for(int i =0; i < orders.size(); i++){
             System.out.println((i+1) + " . Заказ для: " + orders.get(i).getClient().getName() + "\n Статус: " + orders.get(i).getStatus());
         }
-        int orderIndex = Integer.parseInt(scanner.nextLine())-1;
+        int orderIndex = readInt(scanner, "" )-1;
 
         System.out.println("Выберите курьера: ");
         for (int i=0; i < couriers.size(); i++){
             String status = couriers.get(i).isBisy()? " занят": " свободен";
             System.out.println((i+1) + ". " + couriers.get(i).getName() + status);
         }
-        int courierIndex = Integer.parseInt(scanner.nextLine())-1;
+        int courierIndex = readInt(scanner, "" )-1;
 
         if (orderIndex >= 0 && orderIndex <= orders.size() && courierIndex >= 0 && courierIndex <= couriers.size()){
             service.assignCourierToOrder(orders.get(orderIndex), couriers.get(courierIndex));
@@ -151,7 +146,7 @@ public class Main {
 
     private static int readInt(Scanner scanner, String str){
         while(true){
-            System.out.println(str);
+            if (!str.isEmpty()){ System.out.println(str); }
             String input = scanner.nextLine();
             try {
                 return Integer.parseInt(input);
