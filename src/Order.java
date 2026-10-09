@@ -41,16 +41,16 @@ public class Order {
 
     public String getOrderInfo() {
         StringBuilder info = new StringBuilder();
-        info.append("Пользователь: ").append(client.getName()).append("/n");
-        info.append("Адрес: ").append(client.getAddress().getFullAddress()).append("/n");
-        info.append("Способ доставки: ").append(deliveryMethod.getDescription()).append("/n");
+        info.append("Пользователь: ").append(client.getName()).append("\n");
+        info.append("Адрес: ").append(client.getAddress().getFullAddress()).append("\n");
+        info.append("Способ доставки: ").append(deliveryMethod.getDescription()).append("\n");
 
         if(assignedCourier !=null){
-            info.append("Курьер:").append(assignedCourier.getName()).append("/n");
+            info.append("Курьер:").append(assignedCourier.getName()).append("\n");
         }
 
-        info.append("Статус:").append(status).append("/n");
-        info.append("Итоговая сумма:").append(calcTotalCost()).append("руб. /n");
+        info.append("Статус:").append(status).append("\n");
+        info.append("Итоговая сумма:").append(calcTotalCost()).append("руб. \n");
 
         return info.toString();
     }

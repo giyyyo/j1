@@ -1,27 +1,27 @@
 import java.util.List;
 import java.util.Scanner;
 
+//сделать отслеживание и доставку заказа
+
 public class Main {
     public static void main(String[] args){
         OrderService service = new OrderService();
 
         //add some couriers
-        service.addCourier(new Courier("Richie Tozier"));
+        service.addCourier(new Courier("Johnson The Rock"));
         service.addCourier(new Courier("Timothee Shalamet"));
         service.addCourier(new Courier("Gerard Way"));
 
         Scanner scanner = new Scanner(System.in);
         boolean isRunning = true;
 
-        System.out.println("Добро подаловать!/n");
+        System.out.println("Добро подаловать!\n");
 
         //main cycle
         while(isRunning){
             System.out.println("--- МЕНЮ ---");
             System.out.println("1. Создать новый заказ");
-//            System.out.println("4. Добавить товар в заказ");
             System.out.println("2. Назначить курьера на заказ");
-//            System.out.println("5. Завершить доставку");
             System.out.println("3. Показать все заказы");
             System.out.println("0. Выход");
             System.out.print("Выберите действие: ");
@@ -39,20 +39,15 @@ public class Main {
                 case 1:
                     createNewOrder(scanner, service);
                     break;
-//                case 4:
-//                    addItemToExistingOrder(scanner, service);
-//                    break;
                 case 2:
                     assignCourier(scanner, service);
                     break;
-//                case 5:
-//                    completeOrder(canner, service);
-//                    break;
                 case 3:
                     service.showAllOrders();
                     break;
                 case 0:
                     System.out.println("Программа завершена.");
+                    isRunning = false;
                     break;
                 default:
                     System.out.println("Неверный пункт меню.");
@@ -73,11 +68,8 @@ public class Main {
         System.out.println("Введите улицу:");
         String street = scanner.nextLine();
 
-        System.out.println("Введите номер дома:");
-        int house = Integer.parseInt(scanner.nextLine());
-
-        System.out.println("Введите номер квартиры (0 если нет):");
-        int appartment = Integer.parseInt(scanner.nextLine());
+        int house = readInt(scanner, "Введите номер дома:");
+        int appartment = readInt(scanner, "Введите номер квартиры (0 если нет):");
 
         Address address = new Address(city, street, house, appartment);
         Client client = new Client(name, address);
@@ -115,11 +107,8 @@ public class Main {
                 System.out.println("Введите название товара: ");
                 String productName = scanner.nextLine();
 
-                System.out.println("Введите количество товара: ");
-                int quantity = Integer.parseInt(scanner.nextLine());
-
-                System.out.println("Введите цену за штуку: ");
-                int price = Integer.parseInt(scanner.nextLine());
+                int quantity = readInt(scanner, "Введите количество товара: ");
+                int price = readInt(scanner, "Введите цену за штуку (целое число): ");
 
                 OrderItem item = new OrderItem(productName, quantity, price);
                 order.addItem(item);
@@ -142,7 +131,7 @@ public class Main {
 
         System.out.println("Выберите заказ: ");
         for(int i =0; i < orders.size(); i++){
-            System.out.println((i+1) + " . Заказ для: " + orders.get(i).getClient().getName() + "/n Статус: " + orders.get(i).getStatus());
+            System.out.println((i+1) + " . Заказ для: " + orders.get(i).getClient().getName() + "\n Статус: " + orders.get(i).getStatus());
         }
         int orderIndex = Integer.parseInt(scanner.nextLine())-1;
 
@@ -157,6 +146,18 @@ public class Main {
             service.assignCourierToOrder(orders.get(orderIndex), couriers.get(courierIndex));
         } else {
             System.out.println("Неверный номер заказа или курьера.");
+        }
+    }
+
+    private static int readInt(Scanner scanner, String str){
+        while(true){
+            System.out.println(str);
+            String input = scanner.nextLine();
+            try {
+                return Integer.parseInt(input);
+            } catch (NumberFormatException e){
+                System.out.println("Введите число.");
+            }
         }
     }
 }
