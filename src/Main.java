@@ -70,7 +70,7 @@ public class Main {
         boolean addingItems = true;
         while (addingItems) {
             showProductMenu();
-            int productChoice = readInt("Товар:", 0, 5);
+            int productChoice = readInt("Товар:", 0, 12);
             if (productChoice == 0) {
                 addingItems = false;
             } else {
