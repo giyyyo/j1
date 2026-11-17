@@ -1,5 +1,5 @@
 public class Courier {
-    private String name;
+    private final String name;
     private boolean isBisy;
 
     public Courier(String name) {
@@ -10,6 +10,11 @@ public class Courier {
     public String getName() { return name;}
     public boolean isBisy() {return isBisy;}
 
-    public void assignToOrder() { this.isBisy = true; }
-    public void release() { this.isBisy = false; }
+    public boolean assignToOrder() {
+        if (isBisy) return false;
+        isBisy = true;
+        return true;
+    }
+    public void release() { isBisy = false; }
+    @Override public String toString() {return name + (isBisy ? "занят" : "свободен" );}
 }

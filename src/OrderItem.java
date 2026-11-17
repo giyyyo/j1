@@ -1,9 +1,10 @@
 public class OrderItem {
-    private String productName;
-    private int quantity;
-    private double prisePerUnit;
+    private final String productName;
+    private final int quantity;
+    private final double prisePerUnit;
 
     public OrderItem (String productName, int quantity, double prisePerUnit){
+        //нельзя чтоб юзер оставил поля пустыми!!!
         this.productName = productName;
         this.quantity = quantity;
         this.prisePerUnit = prisePerUnit;
@@ -14,4 +15,5 @@ public class OrderItem {
     public double getPrisePerUnit(){return prisePerUnit;}
     public double getTotalPrise(){ return prisePerUnit * quantity;}
 
+    @Override public String toString() {return productName + "x" + quantity + " - " + getTotalPrise() + "руб.";}
 }

@@ -1,10 +1,10 @@
 public class Address {
     private String city;
     private String street;
-    private int house;
-    private int appartment;
+    private String house;
+    private String appartment;
 
-    public Address (String city, String street, int house, int appartment){
+    public Address (String city, String street, String house, String appartment){
         this.city = city;
         this.street = street;
         this.house = house;
@@ -12,10 +12,10 @@ public class Address {
     }
 
     public String getFullAddress(){
-        return city + "," + street + ", д." + house + (appartment > 0? ", кв. " + appartment : "");
+        return city + "," + street + ", д." + house + (appartment == null || appartment.isBlank() ?  "" : ", кв. " + appartment);
     }
     public String getCity() {return city;}
     public String getStreet() {return street;}
-    public int getHouse() {return house;}
-    public int getAppartment() {return appartment;}
+    public String getHouse() {return house;}
+    public String getAppartment() {return appartment;}
 }
