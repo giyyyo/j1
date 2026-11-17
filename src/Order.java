@@ -23,7 +23,6 @@ public class Order {
     public Courier getAssignedCourier() {return assignedCourier;}
     public int getNumber() { return number; }
     public DeliveryMethod getDeliveryMethod() { return deliveryMethod; }
-    //public List<OrderItem> getItems() { return Collections.unmodifiableList(items); }
 
     public void addItem(OrderItem item){
         if (status != OrderStatus.NEW)

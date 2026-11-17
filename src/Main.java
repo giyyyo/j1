@@ -8,7 +8,6 @@ public class Main {
     private static final OrderService service = new OrderService();
 
     public static void main(String[] args){
-        //add some couriers
         service.addCourier(new Courier("Johnson The Rock"));
         service.addCourier(new Courier("Dinosaur"));
         service.addCourier(new Courier("Penguin"));
@@ -42,7 +41,7 @@ public class Main {
         System.out.println("3. Назначить курьера на заказ");
         System.out.println("4. Изенить статус заказа");
         System.out.println("5. Показать курьера");
-//        System.out.println("6. Найти заказ по номеру");
+        System.out.println("6. Найти заказ по номеру");
         System.out.println("0. Выход");
     }
 
@@ -112,11 +111,17 @@ public class Main {
         System.out.println("3. Шоколад — 120 руб.");
         System.out.println("4. Печенье — 90 руб.");
         System.out.println("5. Сок — 150 руб.");
+        System.out.println("6. Багет — 70 руб.");
+        System.out.println("7. Мороженое — 210 руб.");
+        System.out.println("8. Пирог — 180 руб.");
+        System.out.println("9. Горячий шоколад — 220 руб.");
+        System.out.println("10. Круассан — 160 руб.");
+        System.out.println("11. Хот-дог — 190 руб.");
+        System.out.println("12. Хачапури — 120 руб.");
         System.out.println("0. Закончить выбор товаров.");
     }
 
     private record Product(String name, double price) {}
-//    !!!!!!!!!!!! up
 
     private static Product getProduct(int choice){
         return switch (choice) {
@@ -125,6 +130,13 @@ public class Main {
             case 3 -> new Product("Шоколад", 120);
             case 4 -> new Product("Печенье", 90);
             case 5 -> new Product("Сок", 150);
+            case 6 -> new Product("Багет", 70);
+            case 7 -> new Product("Мороженое", 210);
+            case 8 -> new Product("Пирог", 180);
+            case 9 -> new Product("Горячий шоколад", 220);
+            case 10 -> new Product("Круассан", 160);
+            case 11 -> new Product("Хот-дог", 190);
+            case 12 -> new Product("Хачапури", 120);
             default -> throw new IllegalArgumentException("Такого товара нет в каталоге.");
         };
     }
@@ -182,8 +194,12 @@ public class Main {
             System.out.println("Заказов пока нет.");
             return;
         }
-        int number = readInt("Введите номер заказа: ", 1, 1000);
-        System.out.println(findOrder(number).getOrderInfo());
+        try {
+            int number = readInt("Введите номер заказа: ", 1, 1000);
+            System.out.println(findOrder(number).getOrderInfo());
+        } catch (IllegalArgumentException e) {
+            System.out.println("Ошибка: " + e.getMessage());
+        }
     }
 
     private static Order findOrder(int number){
