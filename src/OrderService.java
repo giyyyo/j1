@@ -41,7 +41,8 @@ public class OrderService {
             throw new IllegalStateException("Этот курьер уже занят.");
         if (order.getAssignedCourier() != null)
             throw new IllegalStateException("У заказа уже есть назначенный курьер.");
-
+        if (order.getStatus() != OrderStatus.NEW)
+            throw new IllegalStateException("Нельзя назначить курьера заказу на данном этапе.");
         if (!courier.assignToOrder())
             throw new IllegalStateException("Не удалось назначить курьера.");
         order.assignCourier(courier);

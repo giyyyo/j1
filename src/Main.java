@@ -1,5 +1,6 @@
 import java.util.List;
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class Main {
 
@@ -26,7 +27,7 @@ public class Main {
                 case 3 -> assignCourier();
                 case 4 -> changeStatus();
                 case 5 -> service.showAllCouriers();
-//                case 6 -> showOrderByNumber();
+                case 6 -> showOrderByNumber();
                 case 0 -> isRunning = false;
                 default -> System.out.println("Неверный пункт меню.");
             }
@@ -65,7 +66,7 @@ public class Main {
 
         Client client = new Client(name, new Address(city, street, house, apartment));
         DeliveryMethod method = chooseDeliveryMethod();
-        Order order = service.createOrder(client, method);
+        List<OrderItem> items = new ArrayList<>();
 
         boolean addingItems = true;
         while (addingItems) {
@@ -76,15 +77,17 @@ public class Main {
             } else {
                 int quantity = readInt("Количество товаров:", 1, 1000);
                 Product product = getProduct(productChoice);
-                service.addItemToOrder(order,
-                        new OrderItem(product.name(), quantity, product.price()));
+                items.add(new OrderItem(product.name(), quantity, product.price()));
                 System.out.println("Товар добавлен.");
             }
         }
-
-        if (order.isEmpty()) {
-            //upper thing!!!!!!!!!!!!!!!!!
-            System.out.println("Внимание, заказ создан без товаров.");
+        if (items.isEmpty()) {
+            System.out.println("Заказ не создан, тк товары не выбраны.");
+            return;
+        }
+        Order order = service.createOrder(client, method);
+        for (OrderItem item : items) {
+            service.addItemToOrder(order, item);
         }
         System.out.println("\nЗаказ создан:\n" + order.getOrderInfo());
     }
@@ -132,14 +135,19 @@ public class Main {
             System.out.println("Нет заказов");
             return;
         }
-        service.showAllOrders();
-        int number = readInt("Введите номер заказа:", 1, 1000);
-        Order order = findOrder(number);
+        try {
+            service.showAllOrders();
+            int number = readInt("Введите номер заказа:", 1, 1000);
+            Order order = findOrder(number);
 
-        service.showAllCouriers();
-        int num = readInt("Введите номер курьера:", 1, service.getCouriers().size()) - 1;
-        service.assignCourierToOrder(order, service.getCouriers().get(num));
-        System.out.println("Курьер назначен.");
+            service.showAllCouriers();
+            int num = readInt("Введите номер курьера:", 1, service.getCouriers().size()) - 1;
+            service.assignCourierToOrder(order, service.getCouriers().get(num));
+            System.out.println("Курьер назначен.");
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            System.out.println("Ошибка: " + e.getMessage());
+        }
+
     }
 
     private static void changeStatus(){
@@ -147,22 +155,26 @@ public class Main {
             System.out.println("Заказов пока нет.");
             return;
         }
-        service.showAllOrders();
-        int number = readInt("Номер заказа:", 1, 1000);
-        Order order = findOrder(number);
+        try{
+            service.showAllOrders();
+            int number = readInt("Номер заказа:", 1, 1000);
+            Order order = findOrder(number);
 
-        System.out.println("Выберите новый статус:");
-        System.out.println("1. В доставке");
-        System.out.println("2. Доставлен");
-        System.out.println("3. Отменён");
-        int choice = readInt("Ваш выбор: ", 1, 3);
-        OrderStatus status = switch (choice) {
-            case 1 -> OrderStatus.IN_DELIVERY;
-            case 2 -> OrderStatus.DELIVERED;
-            default -> OrderStatus.CANCELLED;
-        };
-        service.changeOrderStatus(order, status);
-        System.out.println("Статус изменён: " + order.getStatus());
+            System.out.println("Выберите новый статус:");
+            System.out.println("1. В доставке");
+            System.out.println("2. Доставлен");
+            System.out.println("3. Отменён");
+            int choice = readInt("Ваш выбор: ", 1, 3);
+            OrderStatus status = switch (choice) {
+                case 1 -> OrderStatus.IN_DELIVERY;
+                case 2 -> OrderStatus.DELIVERED;
+                default -> OrderStatus.CANCELLED;
+            };
+            service.changeOrderStatus(order, status);
+            System.out.println("Статус изменён: " + order.getStatus());
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            System.out.println("Ошибка: " + e.getMessage());
+        }
     }
 
     private static void showOrderByNumber() {
