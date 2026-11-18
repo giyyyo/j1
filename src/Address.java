@@ -14,8 +14,4 @@ public class Address {
     public String getFullAddress(){
         return city + "," + street + ", д." + house + (appartment == null || appartment.isBlank() ?  "" : ", кв. " + appartment);
     }
-    public String getCity() {return city;}
-    public String getStreet() {return street;}
-    public String getHouse() {return house;}
-    public String getAppartment() {return appartment;}
 }

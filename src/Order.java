@@ -18,8 +18,6 @@ public class Order {
     }
 
     public OrderStatus getStatus() { return status; }
-    public Client getClient() { return client; }
-    public boolean isEmpty() {return items.isEmpty(); }
     public Courier getAssignedCourier() {return assignedCourier;}
     public int getNumber() { return number; }
     public DeliveryMethod getDeliveryMethod() { return deliveryMethod; }

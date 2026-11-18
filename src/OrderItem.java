@@ -14,9 +14,7 @@ public class OrderItem {
     }
 
     public String getProductName(){return productName;}
-    public int getQuantity(){return quantity;}
-    public double getPrisePerUnit(){return prisePerUnit;}
     public double getTotalPrise(){ return prisePerUnit * quantity;}
 
-    @Override public String toString() {return productName + "x" + quantity + " - " + getTotalPrise() + "руб.";}
+    @Override public String toString() {return productName + " x " + quantity + " - " + getTotalPrise() + "руб.";}
 }

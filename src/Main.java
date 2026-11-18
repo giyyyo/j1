@@ -40,7 +40,7 @@ public class Main {
         System.out.println("2. Показать все заказы");
         System.out.println("3. Назначить курьера на заказ");
         System.out.println("4. Изенить статус заказа");
-        System.out.println("5. Показать курьера");
+        System.out.println("5. Показать курьеров");
         System.out.println("6. Найти заказ по номеру");
         System.out.println("0. Выход");
     }
