@@ -1,11 +1,12 @@
 import java.util.Scanner;
 
 public class Helper {
-    private final Scanner scanner;
+    private static final Scanner scanner = new Scanner(System.in);
 
-    public Helper (Scanner scanner){
-        this.scanner = scanner;
+    public Helper (){}
 
+    public Scanner getScanner(){
+        return scanner;
     }
 
     public String readLine(){

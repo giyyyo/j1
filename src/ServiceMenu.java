@@ -1,16 +1,27 @@
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class ServiceMenu {
-    private final OrderService service;
-    private final Scanner scanner;
-    private final Helper helper;
+    private static final OrderService service = new OrderService();
+    private static final Helper helper = new Helper();
 
-    public ServiceMenu (OrderService service, Scanner scanner, Helper helper){
-        this.service = service;
-        this.scanner = scanner;
-        this.helper = helper;
+    public ServiceMenu (){}
+
+    public Helper getHelp(){
+        return helper;
+    }
+
+    public void addCouriers(){
+        service.addCourier(new Courier("Johnson The Rock"));
+        service.addCourier(new Courier("Dinosaur"));
+        service.addCourier(new Courier("Penguin"));
+    }
+
+    public void MenuCall(int num){
+        switch(num){
+            case 2-> service.showAllOrders();
+            case 5-> service.showAllCouriers();
+        }
     }
 
     public void createNewOrder() {
@@ -29,7 +40,7 @@ public class ServiceMenu {
         String house = helper.readLine();
 
         System.out.print("Квартира: ");
-        String apartment = scanner.nextLine();
+        String apartment = helper.getScanner().nextLine();
 
         Client client = new Client(name, new Address(city, street, house, apartment));
         DeliveryMethod method = chooseDeliveryMethod();
