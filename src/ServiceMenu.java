@@ -53,7 +53,7 @@ public class ServiceMenu {
             if (productChoice == 0) {
                 addingItems = false;
             } else {
-                int quantity = helper.readInt("Количество товаров:", 1, 1000);
+                int quantity = helper.readInt("Количество товаров:", 1, Integer.MAX_VALUE);
                 Menu.Product product = Menu.getProduct(productChoice);
                 items.add(new OrderItem(product.name(), quantity, product.price()));
                 System.out.println("Товар добавлен.");
@@ -88,7 +88,7 @@ public class ServiceMenu {
         }
         try {
             service.showAllOrders();
-            int number = helper.readInt("Введите номер заказа:", 1, 1000);
+            int number = helper.readInt("Введите номер заказа:", 1, Integer.MAX_VALUE);
             Order order = findOrder(number);
 
             service.showAllCouriers();
@@ -108,7 +108,7 @@ public class ServiceMenu {
         }
         try{
             service.showAllOrders();
-            int number = helper.readInt("Номер заказа:", 1, 1000);
+            int number = helper.readInt("Номер заказа:", 1, Integer.MAX_VALUE);
             Order order = findOrder(number);
 
             System.out.println("Выберите новый статус:");
@@ -134,7 +134,7 @@ public class ServiceMenu {
             return;
         }
         try {
-            int number = helper.readInt("Введите номер заказа: ", 1, 1000);
+            int number = helper.readInt("Введите номер заказа: ", 1, Integer.MAX_VALUE);
             System.out.println(findOrder(number).getOrderInfo());
         } catch (IllegalArgumentException e) {
             System.out.println("Ошибка: " + e.getMessage());

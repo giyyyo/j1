@@ -1,13 +1,9 @@
 import java.util.Scanner;
 
 public class Helper {
-    private static final Scanner scanner = new Scanner(System.in);
+    private final Scanner scanner = new Scanner(System.in);
 
-    public Helper (){}
-
-    public Scanner getScanner(){
-        return scanner;
-    }
+    public Scanner getScanner(){ return scanner; }
 
     public String readLine(){
         while(true){
