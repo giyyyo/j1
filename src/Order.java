@@ -18,8 +18,6 @@ public class Order {
     }
 
     public OrderStatus getStatus() { return status; }
-    public Client getClient() { return client; }
-    public boolean isEmpty() {return items.isEmpty(); }
     public Courier getAssignedCourier() {return assignedCourier;}
     public int getNumber() { return number; }
     public DeliveryMethod getDeliveryMethod() { return deliveryMethod; }
@@ -39,16 +37,33 @@ public class Order {
     }
 
     public void setStatus(OrderStatus newStatus) {
-        boolean allowed =
-                (status == OrderStatus.NEW && (newStatus == OrderStatus.CANCELLED
-                        || (!deliveryMethod.requiresCourier() && newStatus == OrderStatus.IN_DELIVERY)))
-                        || (status == OrderStatus.COURIER_ASSIGNED
-                        && (newStatus == OrderStatus.IN_DELIVERY || newStatus == OrderStatus.CANCELLED))
-                        || (status == OrderStatus.IN_DELIVERY
-                        && (newStatus == OrderStatus.DELIVERED || newStatus == OrderStatus.CANCELLED));
+        if (status == newStatus) throw new IllegalStateException("Заказ уже имеет этот статус.");
 
-        if (!allowed)
-            throw new IllegalStateException("Недопустимый переход статуса: " + status + " → " + newStatus);
+        boolean isValid = false;
+        String reason = "";
+
+        if (status == OrderStatus.NEW) {
+            if (newStatus == OrderStatus.CANCELLED) { isValid = true; }
+            else if (newStatus == OrderStatus.IN_DELIVERY && !deliveryMethod.requiresCourier()) { isValid = true; }
+            else if (newStatus == OrderStatus.IN_DELIVERY) { reason = "Сначала необходимо назначить курьера."; }
+            else if (newStatus == OrderStatus.DELIVERED) { reason = "Нельзя завершить заказ, который ещё не был передан в доставку."; }
+            else if (newStatus == OrderStatus.COURIER_ASSIGNED) { reason = "Для назначения курьера используйте функцию назначения курьера."; }
+            else { reason = "Недопустимый переход из статуса «Новый»."; }
+        }
+        else if (status == OrderStatus.COURIER_ASSIGNED) {
+            if (newStatus == OrderStatus.IN_DELIVERY || newStatus == OrderStatus.CANCELLED) { isValid = true; }
+            else if (newStatus == OrderStatus.DELIVERED) { reason = "Сначала необходимо начать доставку."; }
+            else { reason = "После назначения курьера заказ можно только отправить в доставку или отменить."; }
+        }
+        else if (status == OrderStatus.IN_DELIVERY) {
+            if (newStatus == OrderStatus.DELIVERED || newStatus == OrderStatus.CANCELLED) { isValid = true; }
+            else { reason = "Заказ в доставке можно только завершить или отменить.";}
+        }
+        else if (status == OrderStatus.DELIVERED) { reason = "Заказ уже доставлен. Его статус нельзя изменить."; }
+        else if (status == OrderStatus.CANCELLED) { reason = "Заказ уже отменён. Его статус нельзя изменить.";
+        }
+        if (!isValid)
+            throw new IllegalStateException("Недопустимый переход статуса:" + status + " → " + newStatus + "». Причина: " + reason);
         status = newStatus;
     }
 
@@ -58,7 +73,6 @@ public class Order {
         for (OrderItem item : items){
             ItemsCost +=item.getTotalPrise();
         }
-
         return ItemsCost + deliveryMethod.calculateCost();
     }
 
